@@ -2,15 +2,9 @@
 #include <cstdlib>
 
 int main(void) {
-  for (int i = 0; ; i++) {
-    printf ("%d) ", i);
-    system ("./gen > input%d.in", i);
-    system ("./brute < input%d.in > out%d_b.txt", i, i);
-    system ("./main < input%d.in > out%d_u.txt", i, i);
-    if (system ("./checker out%d_b.txt out%d_u.txt", i, i)) {
-      break;
-    }
-  }
-
+  system ("./bin/gen > input.in");
+  system ("./bin/brute < input.in > out_b.txt");
+  system ("./bin/gsa < input.in > out_u.txt");
+  system ("./bin/checker out_b.txt out_u.txt");
   return 0;
 }

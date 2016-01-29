@@ -7,7 +7,7 @@ using namespace std;
 
 #define MEASURES 10
 
-string to_string(int number) {
+string to_str(int number) {
   string str = "";
   while (number > 0) {
     char digit = (number % 10) + '0';
@@ -18,23 +18,16 @@ string to_string(int number) {
   return str;
 }
 
-/*
-  Commandline arguments:
-    1) seed for generator
-*/
 int main(int args, char** argc) {
-
-  string seedString = argc[1];
-  int seed = atoi(seedString.c_str());
 
   double total = 0;
   double minTime = 1000;
   double maxTime = 0;
   for (int i = 0; i < MEASURES; i++) {
-    string generator = "./gen " + to_string(seed + i) + " > timeM.in";
+    string generator = "./bin/gen > timeM.in";
     system (generator.c_str());
-    system ("program < timeM.in > timeM.out");
-    FILE *f = fopen("out", "r");
+    system ("./bin/gsa 1 < timeM.in > timeM.out");
+    FILE *f = fopen("timeM.out", "r");
     double current; fscanf (f, "%lf", &current);
     fclose(f);
     total += current;

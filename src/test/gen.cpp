@@ -23,8 +23,7 @@ char generateBase() {
 }
 
 int main(int args, char** argc) {
-  int seed = atoi(argc[1]);
-  srand(seed);
+  srand(time(NULL));
 
   // reference
   int n = 1000000; //scanf ("%d", &n);

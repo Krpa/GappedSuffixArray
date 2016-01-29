@@ -39,99 +39,99 @@ bool GappedSuffixArray::gCMP::operator()(const int &a, const int &b) {
     return a > b;
 }
 
+int GappedSuffixArray::lowerBound(char *query) {
+    int first = 0;
+    int count = refLen;
+    int check, step;
+    while(count > 0) {
+        step = count / 2;
+        check = first + step;
+        if(compare(query, check) > 0) {
+            first = check + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+    return first;
+}
+
 // int GappedSuffixArray::lowerBound(char *query) {
-//     int first = 0;
-//     int count = refLen;
-//     int check, step;
-//     while(count > 0) {
-//         step = count / 2;
-//         check = first + step;
-//         if(compare(query, check) > 0) {
-//             first = check + 1;
-//             count -= step + 1;
+//     int lo = 0, hi = refLen - 1, mid, lcpl = 0, lcpr = 0, i, ind;
+//     bool movelo;
+//     while(lo < hi) {
+//         mid = lo + (hi - lo) / 2;
+//         ind = GSA[mid];
+//         movelo = false;
+//         for(
+//             i = lcpl < lcpr ? lcpl : lcpr;
+//             i < shapeLen && i + ind < refLen;
+//             i++
+//         ) {
+//             if(i == dcPos) continue;
+//             if(query[i] < ref[ind + i]) break;
+//             if(query[i] > ref[ind + i]) {
+//                 movelo = true;
+//                 break;
+//             }
+//         }
+//         if(movelo) {
+//             lo = mid + 1;
+//             lcpl = i;
 //         } else {
-//             count = step;
+//             hi = mid;
+//             lcpr = i;
 //         }
 //     }
-//     return first;
+//     return lo;
 // }
-
-int GappedSuffixArray::lowerBound(char *query) {
-    int lo = 0, hi = refLen - 1, mid, lcpl = 0, lcpr = 0, i, ind;
-    bool movelo;
-    while(lo < hi) {
-        mid = lo + (hi - lo) / 2;
-        ind = GSA[mid];
-        movelo = false;
-        for(
-            i = lcpl < lcpr ? lcpl : lcpr;
-            i < shapeLen && i + ind < refLen;
-            i++
-        ) {
-            if(i == dcPos) continue;
-            if(query[i] < ref[ind + i]) break;
-            if(query[i] > ref[ind + i]) {
-                movelo = true;
-                break;
-            }
-        }
-        if(movelo) {
-            lo = mid + 1;
-            lcpl = i;
-        } else {
-            hi = mid;
-            lcpr = i;
-        }
-    }
-    return lo;
-}
-
-int GappedSuffixArray::upperBound(char *query) {
-    int lo = 0, hi = refLen - 1, mid, lcpl = 0, lcpr = 0, i, ind;
-    bool movehi;
-    while(lo < hi) {
-        mid = lo + (hi - lo) / 2;
-        ind = GSA[mid];
-        movehi = false;
-        for(
-            i = lcpl < lcpr ? lcpl : lcpr;
-            i < shapeLen && i + ind < refLen;
-            i++
-        ) {
-            if(i == dcPos) continue;
-            if(query[i] > ref[ind + i]) break;
-            if(query[i] < ref[ind + i]) {
-                movehi = true;
-                break;
-            }
-        }
-        if(movehi) {
-            hi = mid;
-            lcpr = i;
-        } else {
-            lo = mid + 1;
-            lcpl = i;
-        }
-    }
-    return lo;
-}
 
 // int GappedSuffixArray::upperBound(char *query) {
-//     int first = 0;
-//     int count = refLen;
-//     int check, step;
-//     while(count > 0) {
-//         step = count / 2;
-//         check = first + step;
-//         if(compare(query, check) >= 0) {
-//             first = check + 1;
-//             count -= step + 1;
+//     int lo = 0, hi = refLen - 1, mid, lcpl = 0, lcpr = 0, i, ind;
+//     bool movehi;
+//     while(lo < hi) {
+//         mid = lo + (hi - lo) / 2;
+//         ind = GSA[mid];
+//         movehi = false;
+//         for(
+//             i = lcpl < lcpr ? lcpl : lcpr;
+//             i < shapeLen && i + ind < refLen;
+//             i++
+//         ) {
+//             if(i == dcPos) continue;
+//             if(query[i] > ref[ind + i]) break;
+//             if(query[i] < ref[ind + i]) {
+//                 movehi = true;
+//                 break;
+//             }
+//         }
+//         if(movehi) {
+//             hi = mid;
+//             lcpr = i;
 //         } else {
-//             count = step;
+//             lo = mid + 1;
+//             lcpl = i;
 //         }
 //     }
-//     return first;
+//     return lo;
 // }
+
+int GappedSuffixArray::upperBound(char *query) {
+    int first = 0;
+    int count = refLen;
+    int check, step;
+    while(count > 0) {
+        step = count / 2;
+        check = first + step;
+        if(compare(query, check) >= 0) {
+            first = check + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+    return first;
+}
 
 int GappedSuffixArray::compare(char *q, int index) {
     int realIndex = GSA[index];
